@@ -36,8 +36,11 @@ function populateForm() {
     const savedMessageOnObject = JSON.parse(savedMessageOnString);
     for (let key in refs) {
       // Перевіряю на відповідність методу "input" та наявність відповідного даного у сховищі
+        const componentType = refs[key].tagName.toLowerCase(); ;
+
+        console.log(componentType);
       if (
-        (refs[key].type = 'input' || refs[key].type === 'textarea') &&
+        (componentType === 'input' || componentType === 'textarea') &&
         savedMessageOnObject[key] !== undefined
       ) {
         refs[key].value = savedMessageOnObject[key];
