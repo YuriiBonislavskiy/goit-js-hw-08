@@ -14,7 +14,7 @@ const refs = {};
 formData.forEach((value, name) => {
   refs[name] = form.querySelector(`.feedback-form [name="${name}"]`);
 });
-// console.log(refs);
+console.log(refs);
 
 function onFormSubmit(evt) {
   evt.preventDefault();
@@ -37,7 +37,7 @@ function populateForm() {
     for (let key in refs) {
       // Перевіряю на відповідність методу "input" та наявність відповідного даного у сховищі
       if (
-        (refs[key].nodeName = 'INPUT' || refs[key].nodeName === 'TEXTAREA') &&
+        (refs[key].type = 'input' || refs[key].type === 'textarea') &&
         savedMessageOnObject[key] !== undefined
       ) {
         refs[key].value = savedMessageOnObject[key];
