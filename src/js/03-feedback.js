@@ -10,21 +10,24 @@ form.addEventListener('input', throttle(formInputOn, 500));
 const formData = new FormData(form);
 
 // Заповнюю масив елементів даних форми
+const formSaveData = {};
 const refs = {};
 formData.forEach((value, name) => {
   refs[name] = form.querySelector(`.feedback-form [name="${name}"]`);
+  formSaveData[name] = refs[name].value;
 });
-console.log(refs);
 
 function onFormSubmit(evt) {
   evt.preventDefault();
-  //   console.log('Отправляем форму');
   evt.currentTarget.reset();
   localStorage.removeItem(STORAGE_KEY);
+  console.log(formSaveData);
+  for (let key in formSaveData) {
+    formSaveData[key] = '';
+  }
 }
 
 // Створюю об'єкт для запам'ятовування даних форми
-const formSaveData = {};
 
 // Заповнення даних форми із локального сховища
 populateForm();
@@ -36,9 +39,8 @@ function populateForm() {
     const savedMessageOnObject = JSON.parse(savedMessageOnString);
     for (let key in refs) {
       // Перевіряю на відповідність методу "input" та наявність відповідного даного у сховищі
-        const componentType = refs[key].tagName.toLowerCase(); ;
+      const componentType = refs[key].tagName.toLowerCase();
 
-        console.log(componentType);
       if (
         (componentType === 'input' || componentType === 'textarea') &&
         savedMessageOnObject[key] !== undefined
@@ -54,6 +56,5 @@ function populateForm() {
 function formInputOn(evt) {
   formSaveData[evt.target.name] = evt.target.value;
   const Message = JSON.stringify(formSaveData);
-  console.log(Message);
   localStorage.setItem(STORAGE_KEY, Message);
 }
